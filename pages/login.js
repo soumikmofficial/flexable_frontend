@@ -1,15 +1,34 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/Link";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import { signIn } from "../utils/auth";
 
 const login = () => {
   // todo: states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
   // todo: functions
-  const handleSignIn = () => {};
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      toast.error("One or more fields are missing");
+      return;
+    }
+    const { error, session } = await signIn({ email, password });
+    if (error) {
+      toast.error(error.message);
+    }
+    if (session) {
+      toast.success("Logged in successfully");
+      router.push("/dashboard");
+    }
+  };
+
   return (
     <>
       <Head>
@@ -18,7 +37,7 @@ const login = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="bg-primary h-[40vh] flex items-center justify-center text-white">
-        <h1>Sign In</h1>
+        <h1 className="text-3xl">Sign In</h1>
       </div>
       <div className="form-container px-[10%] pt-10 max-w-[800px] mx-auto">
         <form onSubmit={handleSignIn}>

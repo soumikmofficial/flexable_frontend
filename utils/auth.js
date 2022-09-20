@@ -1,5 +1,6 @@
 import supabase from "./supabaseClient";
 
+// todo: signIn
 export const signIn = async ({ email, password }) => {
   const { error, session, user } = await supabase.auth.signIn({
     email,
@@ -13,7 +14,7 @@ export const signOut = async () => {
   return { error };
 };
 
-// single function to dynamically login using any provider
+// todo: single function to dynamically login using any provider
 export const signInWithProvider = async (provider) => {
   console.log("signing in with provider", process.env.NEXT_PUBLIC_ORIGIN);
   const { user, session, error } = await supabase.auth.signIn({

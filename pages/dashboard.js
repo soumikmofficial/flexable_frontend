@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { signOut } from "../utils/auth";
 import { toast } from "react-toastify";
+import withAuth from "../components/AuthWrapper";
 
-const dashboard = () => {
+const Dashboard = () => {
   const router = useRouter();
   // sign out
   const handleSignOut = async () => {
@@ -13,6 +14,7 @@ const dashboard = () => {
       router.push("/login");
     }
   };
+
   // component
   return (
     <div>
@@ -349,4 +351,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default withAuth(Dashboard);
