@@ -22,3 +22,15 @@ export const signInWithProvider = async (provider) => {
 
   return { session, error };
 };
+
+// todo: sign up
+export const signUp = async ({ email, password }) => {
+  const { user, session, error } = await supabase.auth.signUp(
+    {
+      email,
+      password,
+    },
+    { redirectTo: `${process.env.NEXT_PUBLIC_ORIGIN}/dashboard` }
+  );
+  return { user, session, error };
+};

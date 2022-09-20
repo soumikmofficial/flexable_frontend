@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import supabase from "../utils/supabaseClient";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { toast } from "react-toastify";
+import { signUp } from "../utils/auth";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -18,11 +18,23 @@ const Register = () => {
     if (!email || !password || !retypedPassword) {
       return toast.error("please fill all the fields");
     }
-    if (password.length < 7) {
-      return toast.error("password too short");
+    // if password is too short
+    if (password.toString().length < 7) {
+      return toast.error("password must be at leas 7 chars");
     }
+    // if passwords do not match
     if (password !== retypedPassword) {
       return toast.error("passwords do not match");
+    }
+
+    const { error, session } = await signUp({ email, password });
+    if (error) {
+      toast.error(error.message);
+    } else {
+      setEmail("");
+      setPassword("");
+      setRetypedPassword("");
+      toast.dark("Sign Up Successful. Please chek your email inbox");
     }
   };
   // todo: component
