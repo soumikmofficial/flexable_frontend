@@ -16,10 +16,12 @@ export const signOut = async () => {
 
 // todo: single function to dynamically login using any provider
 export const signInWithProvider = async (provider) => {
-  console.log("signing in with provider", process.env.NEXT_PUBLIC_ORIGIN);
-  const { user, session, error } = await supabase.auth.signIn({
-    provider,
-  });
+  const { session, error } = await supabase.auth.signIn(
+    {
+      provider,
+    },
+    { redirectTo: `${process.env.NEXT_PUBLIC_ORIGIN}/dashboard` }
+  );
 
   return { session, error };
 };
@@ -34,4 +36,22 @@ export const signUp = async ({ email, password }) => {
     { redirectTo: `${process.env.NEXT_PUBLIC_ORIGIN}/dashboard` }
   );
   return { user, session, error };
+};
+
+// todo: create Recovery for the forgotten password
+export const createRecovery = async (email) => {
+  const { data, error } = await supabase.auth.api.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_ORIGIN}/update-password`,
+  });
+  return { data, error };
+};
+
+// todo: update password
+export const updatePassword = async (password) => {
+  // updating new password
+  const access_token = supabase.auth.session().access_token;
+  const { error, data } = await supabase.auth.api.updateUser(access_token, {
+    password,
+  });
+  return { data, error };
 };

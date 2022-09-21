@@ -11,6 +11,7 @@ const withAuth = (Component) => {
     useEffect(() => {
       const getUser = async () => {
         const user = await supabase.auth.user();
+        // const user = localStorage.getItem("supabase.auth.token");
         if (!user) {
           router.push("/login");
         } else {

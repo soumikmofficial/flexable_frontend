@@ -11,19 +11,21 @@ export default function Navbar({ isAuthenticated }) {
   const router = useRouter();
 
   // todo: functions
+
+  // sign out
   const handleSignOut = async () => {
     const { error } = await signOut();
-    if (error) {
-      toast.error(error.message);
+    if (!error) {
+      toast.success("logged out successfully");
+      router.push("/login");
     }
-    router.push("/");
   };
 
   const checkSession = async () => {
     const session = await supabase.auth.session();
     console.log(session);
   };
-
+  console.log(isAuthenticated);
   return (
     <>
       <nav className="top-0 z-50 w-full flex flex-wrap items-center justify-between px-[10%] py-3 navbar-expand-lg shadow bg-gray-700 text-white ">
@@ -40,7 +42,11 @@ export default function Navbar({ isAuthenticated }) {
             </Link>
           </div>
         )}
-        {isAuthenticated && <button className="">sign out</button>}
+        {isAuthenticated && (
+          <button className="capitalize" onClick={handleSignOut}>
+            sign out
+          </button>
+        )}
       </nav>
     </>
   );
