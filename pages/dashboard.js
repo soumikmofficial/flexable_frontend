@@ -4,6 +4,7 @@ import { signOut } from "../utils/auth";
 import { toast } from "react-toastify";
 import withAuth from "../components/AuthWrapper";
 import Link from "next/Link";
+import supabase from "../utils/supabaseClient";
 
 const Dashboard = () => {
   const router = useRouter();
@@ -354,4 +355,21 @@ const Dashboard = () => {
   );
 };
 
+// export default Dashboard;
+
 export default withAuth(Dashboard);
+
+// export const getServerSideProps = async ({ req }) => {
+//   // Get our logged user
+//   const { user } = await supabase.auth.api.getUserByCookie(req);
+//   console.log(user);
+
+//   // Check if the user is logged
+//   if (user === null) {
+//     // Redirect if no logged in
+//     return { props: {}, redirect: { destination: "/login" } };
+//   }
+
+//   // If logged return the user
+//   return { props: { user } };
+// };

@@ -9,6 +9,7 @@ export const signIn = async ({ email, password }) => {
   return { error, session, user };
 };
 
+// todo: sign out
 export const signOut = async () => {
   const { error } = await supabase.auth.signOut();
   return { error };
@@ -54,4 +55,10 @@ export const updatePassword = async (password) => {
     password,
   });
   return { data, error };
+};
+
+// todo: check auth/user
+export const checkUser = () => {
+  const user = supabase.auth.user();
+  return user;
 };
